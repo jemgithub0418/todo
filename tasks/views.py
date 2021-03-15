@@ -1,10 +1,21 @@
-from django.shortcuts import render
-from django.views import View
+from django.shortcuts import render, redirect
+from .models import Task
+from forms import tasks
 
 
-# Create your views here.
-class home(View):
-    #need to para di na paulot ulit ng template name sa return self.template_name nalang gagamitin
-    template_name = 'tasks/home.html'
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+def home(request):
+    form = tasks.TaskForm()
+    if request.method == 'POST':
+        form = tasks.TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("valid")
+        return redirect('tasks:home')
+    else:
+        print('form not valid')
+    context = {
+        'form' : form,
+        'completed_tasks' : Task.objects.filter(complete = True).order_by('created'),
+        'unfinished_tasks' : Task.objects.filter(complete= False).order_by('created'),
+    }
+    return render(request, 'tasks/home.html', context)

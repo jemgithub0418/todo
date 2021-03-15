@@ -2,6 +2,35 @@
 
 {% block title %}Task{% endblock %}
 
+
 {% block content %}
-    <h5>tasks here</h5>
+<div class="container mt-5">
+        <form method="POST">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit">
+        </form>
+        {% for task in unfinished_tasks %}
+        <a href="#" class="list-group-item list-group-item-action mt-2">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <small class="text-muted"> {{task.created}} </small>
+            </div>
+            <p class="mb-1">{% if task.complete %} Done {% else %} Unfinished {% endif %}</p>
+            <small class="text-muted">And some muted small print.</small>
+        </a>
+    {% endfor %}
+    {% for task in completed_tasks %}
+        <a href="#" class="list-group-item list-group-item-action mt-2">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ task.title }}</h5>
+                <small class="text-muted"> {{task.created}} </small>
+            </div>
+            <p class="mb-1">{% if task.complete %} Done {% else %} Unfinished {% endif %}</p>
+            <small class="text-muted">And some muted small print.</small>
+        </a>
+    {% endfor %}
+
+</div>
+
 {% endblock %}
