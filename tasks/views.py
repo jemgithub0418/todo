@@ -6,6 +6,7 @@ from django.http import JsonResponse
 
 def home(request):
     form = tasks.TaskForm()
+
     if request.method == 'POST':
         form = tasks.TaskForm(request.POST)
         if form.is_valid():

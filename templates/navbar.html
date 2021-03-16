@@ -17,7 +17,9 @@
             Dropdown
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
+            {%  if user.is_superuser %}
+              <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin Page</a></li>
+            {% endif %}
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
@@ -28,7 +30,7 @@
         </li>
       </ul>
       <form class="d-flex">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <a href="{% if user.is_authenticated %} {% url 'logout' %} {% else %}{% url 'login' %}{% endif %} " class="btn btn-outline-success">{% if user.is_authenticated %}Logout {% else %} Login {% endif %}</a>
       </form>
     </div>
   </div>
