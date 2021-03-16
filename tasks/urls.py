@@ -6,4 +6,5 @@ app_name = 'tasks'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    # path('updatetask/', views.updatetask, name='updatetask'),
 ]
