@@ -5,19 +5,19 @@ from django.http import JsonResponse
 
 
 def home(request):
-    form = tasks.TaskForm()
-
     if request.method == 'POST':
         form = tasks.TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+           task = form.save(commit=False)
+           task.author = request.user
+           task.save()
         return redirect('tasks:home')
     else:
         form = tasks.TaskForm()
     context = {
         'form' : form,
-        'completed_tasks' : Task.objects.filter(complete = True).order_by('-created'),
-        'unfinished_tasks' : Task.objects.filter(complete= False).order_by('-created'),
+        'completed_tasks' : Task.objects.filter(author = request.user).filter(complete = True).order_by('-created'),
+        'unfinished_tasks' : Task.objects.filter(author = request.user).filter(complete= False).order_by('-created'),
     }
     return render(request, 'tasks/home.html', context)
 

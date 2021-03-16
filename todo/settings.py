@@ -73,6 +73,12 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'tasks.User'
+AUTHENTICATION_BACKENDS = (
+    # 'django.contrib.auth.backends.RemoteUserBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 WSGI_APPLICATION = 'todo.wsgi.application'
 
 
