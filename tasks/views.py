@@ -12,22 +12,21 @@ def home(request):
             form.save()
         return redirect('tasks:home')
     else:
-        print('invalid form')
+        form = tasks.TaskForm()
     context = {
         'form' : form,
-        'completed_tasks' : Task.objects.all().order_by('complete', '-created'),
-        # 'unfinished_tasks' : list(Task.objects.filter(complete= False).order_by('created')),
+        'completed_tasks' : Task.objects.filter(complete = True).order_by('-created'),
+        'unfinished_tasks' : Task.objects.filter(complete= False).order_by('-created'),
     }
     return render(request, 'tasks/home.html', context)
 
 
-# def updatetask(request):
-#     if request.is_ajax() and request.method == "POST":
-#         task = Task.objects.get(id = request.task.id)
-#         task.complete = True if request.POST.get('task.complete') == 'True' else False
-#         task.save()
-#         data = { 'status': 'success', 'task.complete': task.complete }
-#         return JsonResponse(data, status = 200)
-#     else:
-#         data = {'status':'error'}
-#         return JsonResponse(data, status=400)
+def undotask(request, id):
+    task = Task.objects.get(id = id)
+    if request.method  == 'POST':
+        if task.complete == True:
+            task.complete = False
+        else:
+            task.complete = True
+        task.save()
+    return redirect('tasks:home')
