@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load app_filters %}
+
+
+{% block title %}Task{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    user: {{request.user}}
+        <div class="mt-4">Tasks from ... :</div>
+    <ul class="list-group">
+        {% for task in task_list %}
+            <li class="list-group-item mt-1">
+                <div class="row">
+                    <div class="col-sm">
+                        {{ task.title }}
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-1 " style="float: right;">
+                           <small class="text-muted" style="float: right;"> {{task.created}} </small>
+                        </p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+
+    <div class="mt-4">Tasks from previous day:</div>
+    <ul class="list-group">
+        {% for batch in batch_list %}
+
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm">
+                    {{batch}}
+                </div>
+                <div class="col-sm">
+                    <a href="#" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+
+{% endblock %}

@@ -26,7 +26,7 @@
                             <p class="mb-1 " style="float: right;">
                                 <form action="{% url 'tasks:undo' task.id %}" method="POST" style="float: right">
                                     {% csrf_token %}
-                                    <button type="submit" action="#"class="btn btn-outline-success btn-sm">Done</button>
+                                    &nbsp<button type="submit" action="#"class="btn btn-outline-success btn-sm">Done</button>
                                 </form>
 
 
@@ -52,7 +52,7 @@
                         <p class="mb-1 " style="float: right;">
                             <form action="{% url 'tasks:undo' task.id %}" method="POST" style="float: right">
                                 {% csrf_token %}
-                                <button type="submit" action="#"class="btn btn-outline-danger btn-sm">Undo</button>
+                                 &nbsp <button type="submit" action="#"class="btn btn-outline-danger btn-sm">Undo</button>
                             </form>
                             <small class="text-muted" style="float: right;"> {{task.created}} </small>
                         </p>
@@ -75,7 +75,7 @@
                     {{batch}}
                 </div>
                 <div class="col-sm">
-                    <a href="#" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
+                    <a href="{% url 'tasks:batch-details' batch.id %}" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
                 </div>
             </div>
         </li>

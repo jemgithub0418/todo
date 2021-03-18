@@ -40,3 +40,13 @@ def undotask(request, id):
             task.complete = True
         task.save()
     return redirect('tasks:home')
+
+
+def batch_details(request, id):
+    task_list = Task.objects.filter(author = request.user, batch__id = id)
+    batch_list = Batch.objects.filter(batch__lt = datetime.date.today())
+    context = {
+        'task_list' : task_list,
+        'batch_list' : batch_list,
+    }
+    return render(request, 'tasks/batch_details.html', context)

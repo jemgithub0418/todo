@@ -6,8 +6,16 @@ import datetime
 # Register your models here.
 class TaskAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
-        obj.batch = datetime.date.today()
+        batch = Batch.objects.create(batch = datetime.date.today())
+        obj.batch = batch
         super().save_model(request, obj, form, change)
+
+    fieldsets = (
+        ('', {'fields': ('title', 'author',)}),
+    )
+    list_display = ('title', 'author', 'complete', 'batch',)
+    list_display_links = ('title', 'author', 'complete', 'batch',)
+
 
 admin.site.register(Task, TaskAdmin)
 admin.site.register(User)

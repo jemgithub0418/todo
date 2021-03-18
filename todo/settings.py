@@ -136,3 +136,5 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'tasks:home'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+DATE_FORMAT = "M d, Y"
