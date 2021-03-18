@@ -15,12 +15,12 @@
         </form>
         <div class="mt-4">Tasks:</div>
     {% for task in unfinished_tasks %}
-        <a href="#" class="list-group-item list-group-item-action mt-2">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="container">
+        <ul class="list-group">
+            {% for batch in batch_list %}
+                <li class="list-group-item mt-1">
                     <div class="row">
                         <div class="col-sm">
-                            <h6 class="mb-1">{{ task.title }}</h6>
+                            {{ task.title }}
                         </div>
                         <div class="col-sm">
                             <p class="mb-1 " style="float: right;">
@@ -34,34 +34,53 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </a>
+                </li>
+            {% endfor %}
+        </ul>
     {% endfor %}
 
-        <div class="pt-4">Completed task/s:</div>
+        <div class="pt-4 mt-4">Completed task/s:</div>
     {% for task in completed_tasks %}
-        <a href="#" class="list-group-item list-group-item-action mt-2">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <h6 class="mb-1">{{ task.title }}</h6>
-                        </div>
-                        <div class="col-sm">
-                            <p class="mb-1 " style="float: right;">
-                                <form action="{% url 'tasks:undo' task.id %}" method="POST" style="float: right">
-                                    {% csrf_token %}
-                                    <button type="submit" action="#"class="btn btn-outline-danger btn-sm">Undo</button>
-                                </form>
-                                <small class="text-muted" style="float: right;"> {{task.created}} </small>
-                            </p>
-                        </div>
+    <ul class="list-group">
+        {% for batch in batch_list %}
+            <li class="list-group-item mt-1">
+                <div class="row">
+                    <div class="col-sm">
+                        {{ task.title }}
+                    </div>
+                    <div class="col-sm">
+                        <p class="mb-1 " style="float: right;">
+                            <form action="{% url 'tasks:undo' task.id %}" method="POST" style="float: right">
+                                {% csrf_token %}
+                                <button type="submit" action="#"class="btn btn-outline-danger btn-sm">Undo</button>
+                            </form>
+                            <small class="text-muted" style="float: right;"> {{task.created}} </small>
+                        </p>
                     </div>
                 </div>
-            </div>
-        </a>
+            </li>
+        {% endfor %}
+    </ul>
+
     {% endfor %}
+
+
+    <div class="mt-4">Tasks from previous day:</div>
+    <ul class="list-group">
+        {% for batch in batch_list %}
+
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-sm">
+                    {{batch}}
+                </div>
+                <div class="col-sm">
+                    <a href="#" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 
 </div>
 
