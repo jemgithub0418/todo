@@ -6,6 +6,18 @@ from django.conf import settings
 class User(AbstractUser):
     address = models.CharField(max_length= 256, blank = True)
 
+class Batch(models.Model):
+    batch = models.DateField(auto_now_add= True)
+
+    class Meta:
+        ordering = ['-batch']
+        verbose_name = 'Batch'
+        verbose_name_plural = 'Batches'
+
+    def __str__(self):
+        return str(self.batch)
+
+
 class Task(models.Model):
     title = models.CharField(
             max_length = 256,
@@ -20,6 +32,9 @@ class Task(models.Model):
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='author')
 
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.title
+
 
