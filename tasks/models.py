@@ -15,7 +15,7 @@ class Batch(models.Model):
         verbose_name_plural = 'Batches'
 
     def __str__(self):
-        return str(self.batch)
+        return self.batch.strftime("%B %d, %Y %A")
 
 
 class Task(models.Model):

@@ -24,7 +24,7 @@ def home(request):
         form = tasks.TaskForm()
     context = {
         'form' : form,
-        'batch_list' : Batch.objects.all(),
+        'batch_list' : Batch.objects.filter(batch__lt = datetime.date.today()),
         'completed_tasks' : Task.objects.filter(author = request.user,batch__batch = datetime.date.today(), complete = True).order_by('-created'),
         'unfinished_tasks' : Task.objects.filter(author = request.user,batch__batch = datetime.date.today(), complete = False).order_by('-created'),
     }
@@ -42,11 +42,17 @@ def undotask(request, id):
     return redirect('tasks:home')
 
 
-def batch_details(request, id):
-    task_list = Task.objects.filter(author = request.user, batch__id = id)
+def batch_details(request, batch):
+    task_list = Task.objects.filter(author = request.user, batch__batch = batch).order_by('-created')
     batch_list = Batch.objects.filter(batch__lt = datetime.date.today())
     context = {
         'task_list' : task_list,
         'batch_list' : batch_list,
+        'specific_batch': Batch.objects.get(batch = batch),
     }
     return render(request, 'tasks/batch_details.html', context)
+
+def delete_task(request, id):
+    delete_task = Task.objects.get(id = id)
+    delete_task.delete()
+    return redirect('tasks:home')

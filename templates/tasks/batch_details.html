@@ -8,7 +8,7 @@
 {% block content %}
 <div class="container mt-5">
     user: {{request.user}}
-        <div class="mt-4">Tasks from ... :</div>
+        <div class="mt-4">Tasks from {{specific_batch}} :</div>
     <ul class="list-group">
         {% for task in task_list %}
             <li class="list-group-item mt-1">
@@ -18,7 +18,9 @@
                     </div>
                     <div class="col-sm">
                         <p class="mb-1 " style="float: right;">
-                           <small class="text-muted" style="float: right;"> {{task.created}} </small>
+                           <small class="text-muted" style="float: right;">
+                            {{task.created}} {% if task.complete %}&nbsp &nbsp &nbsp &nbsp &nbsp Done{% else %}&nbsp Unfinished{% endif %}
+                        </small>
                         </p>
                     </div>
                 </div>
@@ -26,7 +28,7 @@
         {% endfor %}
         </ul>
 
-    <div class="mt-4">Tasks from previous day:</div>
+    <div class="mt-4">Tasks from previous days:</div>
     <ul class="list-group">
         {% for batch in batch_list %}
 
@@ -36,7 +38,7 @@
                     {{batch}}
                 </div>
                 <div class="col-sm">
-                    <a href="#" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
+                    <a href="{% url 'tasks:batch-details' batch.batch %}" class="btn btn-outline-primary btn-sm" style="float: right;">View</a>
                 </div>
             </div>
         </li>
